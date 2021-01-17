@@ -3,7 +3,8 @@ import tkinter as tk
 ROW = "row"
 COL = "column"
 
-BTN_STYLE = {'font': ('Courier', 20), 'bg': 'MediumPurple2', 'fg': 'white'}
+BTN_STYLE = {'font': ('Courier', 20), 'bg': 'MediumPurple2', 'fg': 'white',
+             'width': 3, 'height': 3}
 
 
 class BoggleGUI:
@@ -15,27 +16,12 @@ class BoggleGUI:
         self._root = tk.Tk()
         self._root.title("Boggle!")
         self._root.resizable(False, False)
-        self._root.geometry("400x500")
+        self._root.geometry("400x600")
 
-        self._main_frame = tk.Frame(self._root, width=600, height=600,
-                                    bg='cyan')
-        self._main_frame.pack(fill=tk.BOTH, expand=True)
+        self._create_frames()
+        self._pack_frames()
 
-        self._upper_frame = tk.Frame(self._main_frame, highlightthickness=5,
-                                     bg='cyan')
-        self._upper_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-        self._center_frame = tk.Frame(self._main_frame)
-        self._center_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-        self._board_frame = tk.Frame(self._center_frame, width=400, height=400)
-        self._board_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
-
-        self._words_frame = tk.Frame(self._center_frame)
-        self._words_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
-
-        self._bottom_frame = tk.Frame(self._main_frame, height=400, bg='tan1')
-        self._bottom_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        self._create_cells()
 
         self._label = tk.Label(self._words_frame, text='WORDS:', font=50)
         self._label.pack()
@@ -47,7 +33,27 @@ class BoggleGUI:
                                     font=30, command=self.enter_clicked)
         self._enter_btn.pack(side=tk.RIGHT, expand=True)
 
-        self._create_cells()
+
+
+    def _create_frames(self):
+        self._main_frame = tk.Frame(self._root, bg='yellow')
+        self._upper_frame = tk.Frame(self._main_frame, bg='cyan')
+        self._center_frame = tk.Frame(self._main_frame, height=90)
+        self._bottom_frame = tk.Frame(self._main_frame, bg='tan1')
+        self._board_frame = tk.Frame(self._center_frame, height=90)
+        self._words_frame = tk.Frame(self._center_frame)
+
+    def _pack_frames(self):
+        self._main_frame.pack(fill=tk.BOTH, expand=True)
+        # self._upper_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self._upper_frame.pack(fill=tk.BOTH, expand=True)
+        self._center_frame.pack()
+        self._bottom_frame.pack(fill=tk.BOTH, expand=True)
+        self._board_frame.pack(side=tk.LEFT, expand=False)
+        self._words_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
+
+    def _pack_widgets(self):
+        pass
 
     def _create_cells(self):
         for i in range(self._board_size[ROW]):
@@ -65,7 +71,7 @@ class BoggleGUI:
                            command=lambda: self.letter_box_clicked(text),
                            **BTN_STYLE)
         button.grid(row=row, column=col, rowspan=1, columnspan=1,
-                    sticky='nswe', ipadx=10, ipady=10)
+                    sticky=tk.NSEW, pady=3, padx=3)
         self._buttons.append(button)
 
     def letter_box_clicked(self, text):
