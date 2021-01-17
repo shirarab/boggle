@@ -6,12 +6,14 @@ COL = "column"
 BTN_STYLE = {'font': ('Courier', 20), 'bg': 'MediumPurple2', 'fg': 'white',
              'width': 3, 'height': 3}
 
+WORDS = "Words: \n"
+
 
 class BoggleGUI:
     def __init__(self, board):
         self._board = board
         self._board_size = {ROW: len(board), COL: len(board[0])}
-        self._buttons = []
+        self._buttons = {}
 
         self._root = tk.Tk()
         self._root.title("Boggle!")
@@ -23,7 +25,7 @@ class BoggleGUI:
 
         self._create_cells()
 
-        self._label = tk.Label(self._words_frame, text='WORDS:', font=50)
+        self._label = tk.Label(self._words_frame, text=WORDS, font=50)
         self._label.pack()
 
         self._display = tk.Label(self._bottom_frame, text='', font=50)
@@ -32,8 +34,6 @@ class BoggleGUI:
         self._enter_btn = tk.Button(self._bottom_frame, text='Enter',
                                     font=30, command=self.enter_clicked)
         self._enter_btn.pack(side=tk.RIGHT, expand=True)
-
-
 
     def _create_frames(self):
         self._main_frame = tk.Frame(self._root, bg='yellow')
@@ -68,17 +68,30 @@ class BoggleGUI:
 
     def _make_cell(self, text: str, row: int, col: int):
         button = tk.Button(self._board_frame, text=text,
-                           command=lambda: self.letter_box_clicked(text),
+                           # command=lambda: self.letter_box_clicked(text),
                            **BTN_STYLE)
         button.grid(row=row, column=col, rowspan=1, columnspan=1,
                     sticky=tk.NSEW, pady=3, padx=3)
-        self._buttons.append(button)
+        cell = str(row) + "," + str(col)
+        self._buttons[cell] = button
 
-    def letter_box_clicked(self, text):
-        self._display['text'] += text
+    def display_text(self, text):
+        # self._display['text'] += text
+        self._display['text'] = text
+
+    def display_words(self, found_words):
+        self._label['text'] = WORDS
+        for word in found_words:
+            self._label['text'] += "\n" + word
 
     def enter_clicked(self):
         self._display['text'] = ''
+
+    def set_cell_command(self, button_cell: str, cmd) -> None:
+        self._buttons[button_cell].configure(command=cmd)
+
+    def set_enter_command(self, cmd) -> None:
+        self._enter_btn.configure(command=cmd)
 
     def run(self):
         self._root.mainloop()

@@ -89,13 +89,13 @@ def _find_words_helper(n, board, words, cur_path, out_lst: words_n_path_th):
                                out_lst)
 
 
-if __name__ == '__main__':
-    brd = [['A', 'R', 'A', 'U'], ['D', 'F', 'Y', 'S'], ['A', 'W', 'N', 'E'],
-           ['D', 'R', 'A', 'I']]
-    brd2 = boggle_board_randomizer.randomize_board()
-    some_words = load_words_dict("boggle_dict.txt")
-    for ln in brd2:
-        print(ln)
-    print()
-    for wrd, p in find_length_n_words(7, brd2, some_words):
-        print('word:', wrd, 'path:', p)
+# if __name__ == '__main__':
+#     brd = [['A', 'R', 'A', 'U'], ['D', 'F', 'Y', 'S'], ['A', 'W', 'N', 'E'],
+#            ['D', 'R', 'A', 'I']]
+#     brd2 = boggle_board_randomizer.randomize_board()
+#     some_words = load_words_dict("boggle_dict.txt")
+#     for ln in brd2:
+#         print(ln)
+#     print()
+#     for wrd, p in find_length_n_words(7, brd2, some_words):
+#         print('word:', wrd, 'path:', p)

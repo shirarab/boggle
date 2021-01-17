@@ -20,6 +20,19 @@ class BoggleModel:
         self._message = ""
         self._score = 0
 
+    def get_all_cells(self):
+        all_cells = []
+        for i in range(len(self._board)):
+            for j in range(len(self._board[i])):
+                all_cells.append((i, j))
+        return all_cells
+
+    def get_found_words(self):
+        return self._found_words
+
+    def get_cur_word(self):
+        return self._cur_word
+
     def start_stop_game(self):
         self._game_on = not self._game_on
 
@@ -54,6 +67,9 @@ class BoggleModel:
         if not self._path:
             return True
         prev_cell = self._path[-1]
+        # no duplicates
+        if self._path.count(new_cell) > 0:
+            return False
         return is_direction_valid(prev_cell, new_cell)
 
     def cell_clicked(self, cell: cell_th):
