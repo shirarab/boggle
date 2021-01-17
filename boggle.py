@@ -14,18 +14,12 @@ class BoggleController:
 
 
 def main():
-    brd = [['A', 'R', 'A', 'U'], ['D', 'F', 'Y', 'S'], ['A', 'W', 'N', 'E'],
+    brd = [['A', 'R', 'A', 'QU'], ['D', 'F', 'Y', 'S'], ['A', 'W', 'N', 'E'],
            ['D', 'R', 'A', 'I']]
     brd2 = randomize_board()
     some_words = load_words_dict("boggle_dict.txt")
-    # for line in brd2:
-    #     print(line)
-    # print()
-    # for word, path in find_length_n_words(7, brd2, some_words):
-    #     print('word:', word, 'path:', path)
 
-    BoggleController(brd2, some_words).run()
-    # BoggleGUI(BoggleModel(brd2, some_words)).run()
+    BoggleController(brd, some_words).run()
 
 
 if __name__ == "__main__":

@@ -94,8 +94,8 @@ if __name__ == '__main__':
            ['D', 'R', 'A', 'I']]
     brd2 = boggle_board_randomizer.randomize_board()
     some_words = load_words_dict("boggle_dict.txt")
-    for line in brd2:
-        print(line)
+    for ln in brd2:
+        print(ln)
     print()
-    for word, path in find_length_n_words(7, brd2, some_words):
-        print('word:', word, 'path:', path)
+    for wrd, p in find_length_n_words(7, brd2, some_words):
+        print('word:', wrd, 'path:', p)

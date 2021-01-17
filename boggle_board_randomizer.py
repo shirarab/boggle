@@ -18,7 +18,7 @@ LETTERS = [
     ['T', 'O', 'E', 'S', 'S', 'I'],
     ['T', 'E', 'R', 'W', 'H', 'V'],
     ['N', 'U', 'I', 'H', 'M', 'QU']
-]
+    ]
 
 
 def randomize_board(dice_list=LETTERS):
