@@ -18,15 +18,47 @@ class BoggleGUI:
         self._root = tk.Tk()
         self._root.title("Boggle!")
         self._root.resizable(False, False)
-        self._root.geometry("400x600")
+        self._root.geometry("600x600")
 
         self._create_frames()
         self._pack_frames()
+        self._add_widgets()
 
+    def _create_frames(self):
+        self._main_frame = tk.Frame(self._root, bg='yellow')
+        self._upper_frame = tk.Frame(self._main_frame, bg='cyan')
+        self._center_frame = tk.Frame(self._main_frame, height=90)
+        self._bottom_frame = tk.Frame(self._main_frame, bg='tan1')
+        self._board_frame = tk.Frame(self._center_frame, width=300, height=300)
+        self._sidebar_frame = tk.Frame(self._center_frame, width=200)
+
+    def _pack_frames(self):
+        self._main_frame.pack(fill=tk.BOTH, expand=True)
+        # self._upper_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self._upper_frame.pack(fill=tk.BOTH, expand=True)
+        self._sidebar_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False)
+        self._sidebar_frame.pack_propagate(False)
+        self._center_frame.pack()
+        self._bottom_frame.pack(fill=tk.BOTH, expand=True)
+        self._board_frame.pack(side=tk.LEFT, expand=False)
+        self._board_frame.grid_propagate(False)
+
+    def _add_widgets(self):
         self._create_cells()
+        # 'Comic Sans MS'
+        self._boggle_label = tk.Label(self._upper_frame, text='BOOGLE',
+                                      font=('Comic Sans MS', 30),
+                                      relief=tk.GROOVE, bg='SlateGray1',
+                                      anchor=tk.CENTER, bd=10, fg='maroon')
+        self._boggle_label.pack(side=tk.LEFT, padx=100)
 
-        self._label = tk.Label(self._words_frame, text=WORDS, font=50)
-        self._label.pack()
+        self._scroll = tk.Scrollbar(self._sidebar_frame, orient=tk.VERTICAL,
+                                    command=tk.YView)
+        self._scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self._words_label = tk.Label(self._sidebar_frame, text=WORDS, font=50)
+        # self._words_label.config(scrollcommand=self._scroll)
+        # self._label.place(relx=.5, rely=.5, anchor=tk.CENTER)
+        self._words_label.pack()
 
         self._display = tk.Label(self._bottom_frame, text='', font=50)
         self._display.pack(expand=True)
@@ -34,26 +66,6 @@ class BoggleGUI:
         self._enter_btn = tk.Button(self._bottom_frame, text='Enter',
                                     font=30, command=self.enter_clicked)
         self._enter_btn.pack(side=tk.RIGHT, expand=True)
-
-    def _create_frames(self):
-        self._main_frame = tk.Frame(self._root, bg='yellow')
-        self._upper_frame = tk.Frame(self._main_frame, bg='cyan')
-        self._center_frame = tk.Frame(self._main_frame, height=90)
-        self._bottom_frame = tk.Frame(self._main_frame, bg='tan1')
-        self._board_frame = tk.Frame(self._center_frame, height=90)
-        self._words_frame = tk.Frame(self._center_frame)
-
-    def _pack_frames(self):
-        self._main_frame.pack(fill=tk.BOTH, expand=True)
-        # self._upper_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        self._upper_frame.pack(fill=tk.BOTH, expand=True)
-        self._center_frame.pack()
-        self._bottom_frame.pack(fill=tk.BOTH, expand=True)
-        self._board_frame.pack(side=tk.LEFT, expand=False)
-        self._words_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
-
-    def _pack_widgets(self):
-        pass
 
     def _create_cells(self):
         for i in range(self._board_size[ROW]):
@@ -71,7 +83,7 @@ class BoggleGUI:
                            # command=lambda: self.letter_box_clicked(text),
                            **BTN_STYLE)
         button.grid(row=row, column=col, rowspan=1, columnspan=1,
-                    sticky=tk.NSEW, pady=3, padx=3)
+                    sticky=tk.NSEW, pady=1, padx=1)
         cell = str(row) + "," + str(col)
         self._buttons[cell] = button
 
@@ -80,11 +92,11 @@ class BoggleGUI:
         self._display['text'] = text
 
     def display_words(self, found_words):
-        self._label['text'] = WORDS
+        self._words_label['text'] = WORDS
         for word in found_words:
-            self._label['text'] += "\n" + word
+            self._words_label['text'] += "\n" + word
 
-    def enter_clicked(self):
+    def enter_clicked(self) -> None:
         self._display['text'] = ''
 
     def set_cell_command(self, button_cell: str, cmd) -> None:
