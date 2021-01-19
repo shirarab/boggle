@@ -20,6 +20,15 @@ class BoggleModel:
         self._message: str = ""
         self._score: int = 0
 
+    def reset_model(self):
+        self._path: path_th = []
+        self._cur_word: str = ""
+        self._found_words: words_th = {}
+        self._score: int = 0
+
+    def get_score(self):
+        return self._score
+
     def get_all_cells(self) -> List[cell_th]:
         all_cells = []
         for i in range(len(self._board)):
@@ -30,11 +39,17 @@ class BoggleModel:
     def get_found_words(self) -> words_th:
         return self._found_words
 
+    def get_game_on(self) -> bool:
+        return self._game_on
+
     def get_cur_word(self) -> str:
         return self._cur_word
 
-    def start_stop_game(self):
-        self._game_on = not self._game_on
+    def start_game(self):
+        self._game_on = True
+
+    def stop_game(self):
+        self._game_on = False
 
     def clear_message(self):
         self._message = ""
