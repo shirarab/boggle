@@ -17,8 +17,8 @@ def cell_string_to_tuple(cell_str):
 
 class BoggleController:
     def __init__(self, words):
-        self._gui = BoggleGUI(TIMER, INIT_BOARD)
         self._model = BoggleModel(words, INIT_BOARD)
+        self._gui = BoggleGUI(self._model, TIMER, INIT_BOARD)
 
         self._gui.set_enter_command(self.get_enter_action())
         self._gui.set_start_command(self.get_start_action())
@@ -37,7 +37,6 @@ class BoggleController:
             self._model.reset_model(new_board)
             self._gui.reset_gui(new_board)
             self.reset_buttons()
-            self._gui.change_to_restart()
             self._gui.display_words(self._model.get_found_words())
             self._gui.display_score(self._model.get_score())
             if not self._model.get_game_on():

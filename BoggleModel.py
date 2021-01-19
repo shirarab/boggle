@@ -1,6 +1,5 @@
 from ex12_utils import *
 
-
 # type hints
 cell_th = Tuple[int, int]
 path_th = List[cell_th]
@@ -79,7 +78,7 @@ class BoggleModel:
 
         self.clear_word()
 
-    def _check_new_cell(self, new_cell):
+    def check_new_cell(self, new_cell):
         if not self._path:
             return True
         prev_cell = self._path[-1]
@@ -90,7 +89,7 @@ class BoggleModel:
 
     def cell_clicked(self, cell: cell_th):
         # check if path to cell is valid...
-        if not self._check_new_cell(cell):
+        if not self.check_new_cell(cell):
             # maybe do something
             return False
         self._path.append(cell)
