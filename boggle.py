@@ -37,6 +37,7 @@ class BoggleController:
             self._model.reset_model(new_board)
             self._gui.reset_gui(new_board)
             self.reset_buttons()
+            self._gui.change_to_restart()
             self._gui.display_words(self._model.get_found_words())
             self._gui.display_score(self._model.get_score())
             if not self._model.get_game_on():

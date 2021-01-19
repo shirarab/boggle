@@ -1,16 +1,9 @@
 import tkinter as tk
-
+from Style import *
+from Texts import *
 
 ROW = "row"
 COL = "column"
-
-BTN_STYLE = {'font': ('Courier', 20), 'bg': 'MediumPurple2', 'fg': 'white',
-             'width': 3, 'height': 3}
-TXT_STYLE = {'font': ('Tempus Sans ITC', 15)}
-TITLE_STYLE = {'font': ("Comic Sans MS", 10)}
-
-BG = {'bg': 'thistle1'}
-CENTER = {'relx': 0.5, 'rely': 0.5, 'anchor': tk.CENTER}
 
 
 def get_time_display(time_to_end):
@@ -84,44 +77,42 @@ class BoggleGUI:
 
     def _add_widgets(self):
         # Game title:
-        self._boggle_label = tk.Label(self._upper_frame, text='BOOGLE',
-                                      font=('Comic Sans MS', 30),
-                                      relief=tk.GROOVE, bg='SlateGray1',
-                                      anchor=tk.CENTER, bd=10, fg='maroon')
+        self._boggle_label = tk.Label(self._upper_frame, text=BOOGLE,
+                                      **BOGGLE_LABEL_STYLE)
         self._boggle_label.place(**CENTER)
 
         # menu frame - clock & score
-        self._clock_title = tk.Label(self._menu_frame, text='Time Remained:',
-                                     width=11, **TITLE_STYLE)
+        self._clock_title = tk.Label(self._menu_frame, text=TIME_REMAINED,
+                                     **TITLE_STYLE)
         self._clock_title.grid(row=0, column=0, ipadx=4)
-        self._clock_display = tk.Label(self._menu_frame, width=11,
-                                       text='--:--', **TITLE_STYLE)
+        self._clock_display = tk.Label(self._menu_frame, text=EMPTY_CLOCK,
+                                       **TITLE_STYLE)
         self._clock_display.grid(row=0, column=1)
 
-        self._score_title = tk.Label(self._menu_frame, text='Score:',
-                                     width=11, **TITLE_STYLE)
+        self._score_title = tk.Label(self._menu_frame, text=SCORE,
+                                     **TITLE_STYLE)
         self._score_title.grid(row=1, column=0, ipadx=4)
-        self._score_display = tk.Label(self._menu_frame, text="0",
-                                       font=("Comic Sans MS", 10), width=11)
+        self._score_display = tk.Label(self._menu_frame, text=DEFAULT_SCORE,
+                                       **TITLE_STYLE)
         self._score_display.grid(row=1, column=1)
 
         # words display
-        self._words_title = tk.Label(self._words_frame, text='WORDS FOUND',
-                                     font=("Comic Sans MS", 10))
+        self._words_title = tk.Label(self._words_frame, text=WORDS_FOUND,
+                                     **TITLE_STYLE)
         self._words_title.pack(side=tk.TOP, fill=tk.X)
 
         self._words_label = tk.Label(self._words_frame, text='',
                                      **TXT_STYLE)
         self._words_label.pack(fill=tk.BOTH)
 
-        self._chosen_word = tk.Label(self._word_display_frame, text='', **TXT_STYLE,
-                                     **BG)
+        self._chosen_word = tk.Label(self._word_display_frame, text='',
+                                     **TXT_STYLE, **BG)
         self._chosen_word.place(**CENTER)
 
-        self._enter_btn = tk.Button(self._bottom_frame, text='Enter', font=30)
+        self._enter_btn = tk.Button(self._bottom_frame, text=ENTER, font=30)
         self._enter_btn.pack(side=tk.RIGHT, expand=True)
 
-        self._start_btn = tk.Button(self._bottom_frame, text='Start', font=30)
+        self._start_btn = tk.Button(self._bottom_frame, text=START, font=30)
         self._start_btn.pack(side=tk.RIGHT, expand=True)
 
     def _create_cells(self):
@@ -136,8 +127,7 @@ class BoggleGUI:
                 self._make_cell(text, i, j)
 
     def _make_cell(self, text: str, row: int, col: int):
-        button = tk.Button(self._board_frame, text=text,
-                           **BTN_STYLE)
+        button = tk.Button(self._board_frame, text=text, **BTN_STYLE)
         button.grid(row=row, column=col, rowspan=1, columnspan=1,
                     sticky=tk.NSEW, pady=1, padx=1)
         cell = str(row) + "," + str(col)
@@ -148,7 +138,7 @@ class BoggleGUI:
             self._time_to_end = time_to_end
 
         if self._time_to_end <= 0:
-            self._clock_display.configure(text="time's up!")
+            self._clock_display.configure(text=TIME_UP)
         else:
             self._clock_display.configure(
                 text=get_time_display(self._time_to_end))
@@ -175,8 +165,8 @@ class BoggleGUI:
     def set_start_command(self, cmd) -> None:
         self._start_btn.configure(command=cmd)
 
-    # def set_restart_command(self, cmd) -> None:
-    #     self._restart_btn.configure(command=cmd)
+    def change_to_restart(self) -> None:
+        self._start_btn.configure(text=RESTART)
 
     def run(self):
         self._root.mainloop()
