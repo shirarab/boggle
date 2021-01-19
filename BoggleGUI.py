@@ -5,6 +5,10 @@ COL = "column"
 
 BTN_STYLE = {'font': ('Courier', 20), 'bg': 'MediumPurple2', 'fg': 'white',
              'width': 3, 'height': 3}
+TXT_STYLE = {'font': ('Tempus Sans ITC', 15)}
+
+BG = {'bg': 'thistle1'}
+CENTER = {'relx': 0.5, 'rely': 0.5, 'anchor': tk.CENTER}
 
 WORDS = "Words: \n"
 
@@ -30,18 +34,24 @@ class BoggleGUI:
         self._center_frame = tk.Frame(self._main_frame, height=90)
         self._bottom_frame = tk.Frame(self._main_frame, bg='tan1')
         self._board_frame = tk.Frame(self._center_frame, width=300, height=300)
-        self._sidebar_frame = tk.Frame(self._center_frame, width=200)
+        self._sidebar_frame = tk.Frame(self._main_frame, width=200)
+        self._display_frame = tk.Frame(self._bottom_frame, width=300,
+                                       height=40, **BG)
 
     def _pack_frames(self):
         self._main_frame.pack(fill=tk.BOTH, expand=True)
-        # self._upper_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        self._upper_frame.pack(fill=tk.BOTH, expand=True)
         self._sidebar_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False)
         self._sidebar_frame.pack_propagate(False)
+        # self._upper_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self._upper_frame.pack(fill=tk.BOTH, expand=True)
         self._center_frame.pack()
         self._bottom_frame.pack(fill=tk.BOTH, expand=True)
+
         self._board_frame.pack(side=tk.LEFT, expand=False)
         self._board_frame.grid_propagate(False)
+
+        self._display_frame.place(x=50, y=10)
+        self._display_frame.pack_propagate(False)
 
     def _add_widgets(self):
         self._create_cells()
@@ -50,18 +60,19 @@ class BoggleGUI:
                                       font=('Comic Sans MS', 30),
                                       relief=tk.GROOVE, bg='SlateGray1',
                                       anchor=tk.CENTER, bd=10, fg='maroon')
-        self._boggle_label.pack(side=tk.LEFT, padx=100)
+        # self._boggle_label.pack(side=tk.LEFT, padx=100)
+        self._boggle_label.place(**CENTER)
 
-        self._scroll = tk.Scrollbar(self._sidebar_frame, orient=tk.VERTICAL,
-                                    command=tk.YView)
-        self._scroll.pack(side=tk.RIGHT, fill=tk.Y)
-        self._words_label = tk.Label(self._sidebar_frame, text=WORDS, font=50)
-        # self._words_label.config(scrollcommand=self._scroll)
-        # self._label.place(relx=.5, rely=.5, anchor=tk.CENTER)
+        # self._scroll = tk.Scrollbar(self._sidebar_frame, orient=tk.VERTICAL,
+        #                             command=tk.YView)
+        # self._scroll.pack(side=tk.RIGHT, fill=tk.Y, expand=False)
+        self._words_label = tk.Label(self._sidebar_frame, text=WORDS,
+                                     **TXT_STYLE)
         self._words_label.pack()
 
-        self._display = tk.Label(self._bottom_frame, text='', font=50)
-        self._display.pack(expand=True)
+        self._display = tk.Label(self._display_frame, text='', **TXT_STYLE,
+                                 **BG)
+        self._display.place(**CENTER)
 
         self._enter_btn = tk.Button(self._bottom_frame, text='Enter',
                                     font=30, command=self.enter_clicked)
