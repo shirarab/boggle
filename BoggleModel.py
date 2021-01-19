@@ -10,20 +10,21 @@ words_n_path_th = List[Tuple[str, path_th]]
 
 
 class BoggleModel:
-    def __init__(self, board, all_words):
+    def __init__(self, all_words, board=None):
         self._board: board_th = board
         self._all_words: words_th = all_words
         self._game_on: bool = False
         self._path: path_th = []
         self._cur_word: str = ""
         self._found_words: words_th = {}
-        self._message: str = ""
+        self._message: str = ''
         self._score: int = 0
 
-    def reset_model(self):
-        self._path: path_th = []
-        self._cur_word: str = ""
-        self._found_words: words_th = {}
+    def reset_model(self, board):
+        self._board = board
+        self._path = []
+        self._cur_word = ''
+        self._found_words.clear()
         self._score: int = 0
 
     def get_score(self):
