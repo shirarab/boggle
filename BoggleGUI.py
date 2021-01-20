@@ -16,7 +16,7 @@ class BoggleGUI:
         self._root = tk.Tk()
         self._root.title(ROOT_TITLE)
         self._root.resizable(False, False)
-        self._root.geometry("600x600")
+        self._root.geometry("600x530")
 
         self._create_frames()
         self._pack_frames()
@@ -63,7 +63,7 @@ class BoggleGUI:
         self._board_frame.pack(side=tk.LEFT, expand=False)
         self._board_frame.grid_propagate(False)
 
-        self._word_display_frame.place(x=50, y=10)
+        self._word_display_frame.place(**CENTER_UP)
         self._word_display_frame.pack_propagate(False)
 
         self._menu_frame.pack(fill=tk.X)
@@ -72,9 +72,7 @@ class BoggleGUI:
     def _add_widgets(self):
         # Game title:
         self._boggle_label = tk.Label(self._upper_frame, text=BOOGLE,
-                                      font=('Comic Sans MS', 30),
-                                      relief=tk.GROOVE, bg='SlateGray1',
-                                      anchor=tk.CENTER, bd=10, fg='maroon')
+                                      **BOGGLE_LABEL_STYLE)
         self._boggle_label.place(**CENTER)
 
         # menu frame - clock & score
@@ -92,12 +90,16 @@ class BoggleGUI:
                                        **TITLE_STYLE)
         self._score_display.grid(row=1, column=1)
 
+        self._start_btn = tk.Button(self._sidebar_frame, text=START,
+                                    **ENTER_STL)
+        self._start_btn.pack(fill=tk.X)
         # words display
         self._words_title = tk.Label(self._words_frame, text=WORDS_FOUND,
-                                     font=("Comic Sans MS", 15), pady=5)
+                                     **WORDS_TITLE_STL)
         self._words_title.pack(side=tk.TOP, fill=tk.X)
 
-        self._words_label = tk.Label(self._words_frame, text=EMPTY, anchor=tk.N,
+        self._words_label = tk.Label(self._words_frame, text=EMPTY,
+                                     anchor=tk.N,
                                      bg='light cyan', **WORDS_STYLE)
         self._words_label.pack(fill=tk.BOTH, expand=True)
 
@@ -107,11 +109,9 @@ class BoggleGUI:
         self._chosen_word.place(**CENTER)
 
         # buttons
-        self._enter_btn = tk.Button(self._bottom_frame, text=ENTER, font=30)
-        self._enter_btn.pack(side=tk.RIGHT, expand=True)
-
-        self._start_btn = tk.Button(self._bottom_frame, text=START, font=30)
-        self._start_btn.pack(side=tk.RIGHT, expand=True)
+        self._enter_btn = tk.Button(self._bottom_frame, text=ENTER,
+                                    **ENTER_STL)
+        self._enter_btn.place(**CENTER_DOWN)
 
     def _create_cells(self):
         for i in range(self._board_size[ROW]):
@@ -148,11 +148,11 @@ class BoggleGUI:
         for cell_name in self._buttons:
             cell = tuple(map(lambda x: int(x), cell_name.split(',')))
             if not self._model.check_new_cell(cell) \
-               or not self._buttons[cell_name]['text']:
+               or not self._model.get_game_on():
                 disable_btn(self._buttons[cell_name])
             else:
                 enable_btn(self._buttons[cell_name])
-        self._root.after(5, self.animate_cells)
+        self._root.after(100, self.animate_cells)
 
     def get_time_to_end(self):
         return self._time_to_end
@@ -167,6 +167,9 @@ class BoggleGUI:
 
     def display_score(self, score):
         self._score_display['text'] = str(score)
+
+    def change_to_restart(self):
+        self._start_btn['text'] = RESTART
 
     def set_cell_command(self, button_cell: str, cmd) -> None:
         self._buttons[button_cell].configure(command=cmd)
@@ -195,5 +198,4 @@ def disable_btn(button: tk.Button):
 
 def enable_btn(button: tk.Button):
     button.configure(state=tk.NORMAL, **NORMAL_BTN)
-
-
+    button.bind('<Enter>', lambda event: button.config(**PRESSED_BTN))

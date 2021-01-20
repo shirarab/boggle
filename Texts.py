@@ -1,7 +1,7 @@
 ROOT_TITLE = "Boggle!"
 ENTER = "Enter"
 START = "Start Game"
-RESTART = "Restart"
+RESTART = "Restart Game"
 WORDS_FOUND = "WORDS FOUND"
 BOOGLE = "BOOGLE"
 TIME_REMAINED = "Time Remained:"

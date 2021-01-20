@@ -1,13 +1,12 @@
 from BoggleGUI import BoggleGUI
 from BoggleModel import BoggleModel
 from ex12_utils import load_words_dict
-from boggle_board_randomizer import randomize_board
+from boggle_board_randomizer import randomize_board, BOARD_SIZE
 
 
-SIZE = 4
 TIMER = 3 * 60
 # TIMER = 3
-INIT_BOARD = [[''] * SIZE] * SIZE
+INIT_BOARD = [[''] * BOARD_SIZE] * BOARD_SIZE
 
 
 def cell_string_to_tuple(cell_str):
@@ -40,6 +39,7 @@ class BoggleController:
             self._gui.display_words(self._model.get_found_words())
             self._gui.display_score(self._model.get_score())
             if not self._model.get_game_on():
+                self._gui.change_to_restart()
                 self._model.start_game()
                 self._gui.countdown()
         return wrapper
