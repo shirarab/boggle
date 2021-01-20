@@ -12,3 +12,5 @@ TIME_UP = "Time's up :("
 ROW = "row"
 COL = "column"
 EMPTY = ''
+EXIT = 'Quit Game'
+HINT = 'Hint'

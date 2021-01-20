@@ -7,6 +7,7 @@ from boggle_board_randomizer import randomize_board, BOARD_SIZE
 TIMER = 3 * 60
 # TIMER = 3
 INIT_BOARD = [[''] * BOARD_SIZE] * BOARD_SIZE
+HINT_MESSAGE = "You've got a hint: "
 
 
 def cell_string_to_tuple(cell_str):
@@ -21,8 +22,10 @@ class BoggleController:
 
         self._gui.set_enter_command(self.get_enter_action())
         self._gui.set_start_command(self.get_start_action())
+        self._gui.set_hint_command(self.get_hint_action())
 
     def get_enter_action(self):
+        """ Creates command to Enter button """
         def wrapper():
             self._model.submit_word()
             self._gui.display_chosen_word(self._model.get_cur_word())
@@ -31,6 +34,7 @@ class BoggleController:
         return wrapper
 
     def get_start_action(self):
+        """ Creates command to Start/Restart button """
         def wrapper():
             new_board = randomize_board()
             self._model.reset_model(new_board)
@@ -41,22 +45,30 @@ class BoggleController:
             if not self._model.get_game_on():
                 self._gui.change_to_restart()
                 self._model.start_game()
-                self._gui.countdown()
+                self._gui.timer()
+        return wrapper
+
+    def get_hint_action(self):
+        def wrapper():
+            hint: str = self._model.get_hint()
+            new_msg = HINT_MESSAGE + hint
+            self._model.set_message(new_msg)
         return wrapper
 
     def create_cell_action(self, button_cell: str):
+        """ Creates command to Board's buttons """
         def wrapper() -> None:
             if not self._model.get_game_on():
                 return
             cell_tpl = cell_string_to_tuple(button_cell)
             cell_valid = self._model.cell_clicked(cell_tpl)
             if not cell_valid:
-                # do something.. ?
                 return
             self._gui.display_chosen_word(self._model.get_cur_word())
         return wrapper
 
     def reset_buttons(self):
+        """ Resets Board's buttons and adds them to Board """
         for button_cell in self._model.get_all_cells():
             i, j = button_cell
             cell_str = str(i) + "," + str(j)

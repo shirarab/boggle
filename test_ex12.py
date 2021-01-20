@@ -1,4 +1,5 @@
 from ex12_utils import *
+from BoggleModel import *
 
 
 print()
@@ -44,3 +45,12 @@ def test_valid_path():
     path4 = [(0,3), (1,3), (2,3)]
     assert is_valid_path(brd, path4, some_words) == 'USE'
     assert is_valid_path(brd, [(2,2)], some_words) is None
+
+
+def test_hints():
+    print()
+    model = BoggleModel(some_words, brd)
+    # model._found_words['YEAN'] = True
+    # hint = model.get_hint()
+    # assert 'YEAN' not in hint
+    print(model.get_hint())
