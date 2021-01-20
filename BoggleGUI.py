@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from BoggleModel import BoggleModel
 from Style import *
 from Texts import *
@@ -11,7 +12,7 @@ buttons_th = Dict[str, tk.Button]
 cell_th = Tuple[int, int]
 words_th = Dict[str, bool]
 
-MSG_TIME_LIMIT = 50
+MSG_TIME_LIMIT = 40
 
 
 class BoggleGUI:
@@ -49,6 +50,10 @@ class BoggleGUI:
 
         self._create_cells()
         self._model.clear_message()
+        self.reset_message_time()
+
+    def reset_message_time(self):
+        self.msg_time = MSG_TIME_LIMIT
 
     def _create_frames(self):
         """ Creates GUI's Frames """
@@ -102,7 +107,7 @@ class BoggleGUI:
     def _add_widgets(self):
         """ Adds widgets to frames """
         # Game title:
-        self._boggle_label = tk.Label(self._upper_frame, text=BOOGLE,
+        self._boggle_label = tk.Label(self._upper_frame, text=BOGGLE,
                                       **BOGGLE_LABEL_STYLE)
         self._boggle_label.pack(side=tk.TOP, pady=(20, 0), expand=True)
 
@@ -141,17 +146,20 @@ class BoggleGUI:
                                      **CH_WORD_STL, **CH_WORD_BG)
         self._chosen_word.place(**CENTER)
 
-        # buttons
+        # command buttons:
+        # Enter
         self._enter_btn = tk.Button(self._bottom_frame, text=ENTER,
                                     **ENTER_STL)
         self._enter_btn.place(**CENTER_DOWN)
-
+        # Start
         self._start_btn = tk.Button(self._menu_btns_frame, text=START,
                                     **ENTER_STL)
         self._start_btn.grid(row=0, column=0, columnspan=2, **MENU_BTN_GRID)
+        # Exit
         self._exit_btn = tk.Button(self._menu_btns_frame, text=EXIT,
                                    command=self.exit, **ENTER_STL)
         self._exit_btn.grid(row=1, column=1, **MENU_BTN_GRID)
+        # Hint
         self._hint_btn = tk.Button(self._menu_btns_frame, text=HINT,
                                    **ENTER_STL)
         self._hint_btn.grid(row=1, column=0, **MENU_BTN_GRID)
@@ -182,13 +190,30 @@ class BoggleGUI:
         if time_to_end is not None:
             self._time_to_end = time_to_end
         if self._time_to_end <= 0:
-            self._clock_display.configure(text=TIME_UP)
-            self._model.stop_game()
+            self._finish_current_game()
         else:
             self._clock_display.configure(
                 text=get_time_display(self._time_to_end))
             self._time_to_end = self._time_to_end - 1
-        self._root.after(1000, self.timer)
+            self._root.after(1000, self.timer)
+
+    def _finish_current_game(self):
+        self._clock_display.configure(text=TIME_UP)
+        self._model.stop_game()
+        message = self._create_end_message()
+        play_again = messagebox.askyesno(TIME_UP, message)
+        if play_again:
+            restart = self._start_btn['command']
+            restart()
+        else:
+            self._root.destroy()
+
+    def _create_end_message(self):
+        """ Creates message for popup window at the end of the game """
+        message = f"{END} {str(self._model.get_score())}\n" \
+                  f"{self._model.get_message()}\n" \
+                  f"{AGAIN}"
+        return message
 
     def animate_buttons(self):
         """ Animates boarder's buttons """
@@ -257,7 +282,9 @@ class BoggleGUI:
         self._root.mainloop()
 
     def exit(self):
-        self._root.destroy()
+        do_exit = messagebox.askyesno(EXIT, EXIT_MSG)
+        if do_exit:
+            self._root.destroy()
 
 
 def get_time_display(time_to_end: int) -> str:

@@ -1,6 +1,7 @@
 from ex12_utils import *
 from typing import List, Tuple, Dict, Optional
 import random
+from Texts import *
 
 # type hints
 cell_th = Tuple[int, int]
@@ -69,6 +70,10 @@ class BoggleModel:
     def stop_game(self):
         """ turns off game state """
         self._game_on = False
+        if self._score > get_high_score():
+            self._message = HIGHSCORE_MSG
+        else:
+            self._message = END_GAME_MSG
         BoggleModel.all_scores += (self._score,)
 
     def clear_message(self):
@@ -96,10 +101,10 @@ class BoggleModel:
         """ updates found words list after finding a new word """
         if self._cur_word not in self._found_words:
             self._found_words[self._cur_word] = True  # self._path
-            self._message = "Good job! You found a new word"
+            self._message = NEW_WORD_MSG
             self.update_score()
         else:
-            self._message = "You have already found this word :)"
+            self._message = STATIC_MSG
 
     def submit_word(self):
         """ Submits current word """
@@ -107,7 +112,7 @@ class BoggleModel:
         if word == self._cur_word:
             self._word_found()
         else:
-            self._message = "Oops.. Invalid word"
+            self._message = INVALID_MSG
 
         self.clear_word()
 

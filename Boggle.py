@@ -2,12 +2,13 @@ from BoggleGUI import BoggleGUI
 from BoggleModel import BoggleModel
 from ex12_utils import load_words_dict
 from boggle_board_randomizer import randomize_board, BOARD_SIZE
+from tkinter import messagebox
+from Texts import *
 
 
-TIMER = 3 * 60
-# TIMER = 3
+# TIMER = 3 * 60
+TIMER = 10
 INIT_BOARD = [[''] * BOARD_SIZE] * BOARD_SIZE
-HINT_MESSAGE = "You've got a hint: "
 
 
 def cell_string_to_tuple(cell_str):
@@ -31,17 +32,24 @@ class BoggleController:
             self._gui.display_chosen_word(self._model.get_cur_word())
             self._gui.display_words(self._model.get_found_words())
             self._gui.display_score(self._model.get_score())
+            self._gui.reset_message_time()
         return wrapper
 
     def get_start_action(self):
         """ Creates command to Start/Restart button """
         def wrapper():
+            if self._model.get_game_on():
+                restart = messagebox.askyesno(RESTART, RESTART_MSG)
+                if not restart:
+                    return
             new_board = randomize_board()
             self._model.reset_model(new_board)
             self._gui.reset_gui(new_board)
             self.reset_buttons()
             self._gui.display_words(self._model.get_found_words())
             self._gui.display_score(self._model.get_score())
+            self._model.set_message(START_GAME_MSG)
+            self._gui.reset_message_time()
             if not self._model.get_game_on():
                 self._gui.change_to_restart()
                 self._model.start_game()
@@ -51,8 +59,9 @@ class BoggleController:
     def get_hint_action(self):
         def wrapper():
             hint: str = self._model.get_hint()
-            new_msg = HINT_MESSAGE + hint
+            new_msg = HINT_MSG + hint
             self._model.set_message(new_msg)
+            self._gui.reset_message_time()
         return wrapper
 
     def create_cell_action(self, button_cell: str):
