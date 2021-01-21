@@ -8,8 +8,8 @@
 import tkinter as tk
 
 # Frames:
-NORMAL_BG = {'bg': 'light sky blue'}
-MENU_BG = {'bg': 'RoyalBlue1'}
+NORMAL_BG = {'bg': 'RosyBrown1'}
+MENU_BG = {'bg': 'RoyalBlue1', 'bd': 5}
 HIGH_BG = {'bg': 'midnight blue'}
 MAIN_STYLE = {'highlightbackground': 'deep pink', 'highlightthickness': 2,
               **NORMAL_BG}

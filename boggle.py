@@ -1,12 +1,11 @@
 #################################################################
-# FILE : Boggle.py
+# FILE : boggle.py
 # WRITERS : Meyrav Cohen Ganuz | meyrav.ganuz | ID: 208932830
 #           Shira Rabinovich | shirarab | ID: 211689765
 # EXERCISE : intro2cs1 ex12 2020
 # DESCRIPTION: The game 'Boggle'
 # NOTES: file 1 out of 7
 #################################################################
-
 from BoggleGUI import BoggleGUI
 from BoggleModel import BoggleModel
 from ex12_utils import load_words_dict
@@ -17,11 +16,6 @@ from Texts import *
 
 TIMER = 3 * 60
 INIT_BOARD = [[''] * BOARD_SIZE] * BOARD_SIZE
-
-
-def cell_string_to_tuple(cell_str):
-    cell = cell_str.split(',')
-    return int(cell[0]), int(cell[1])
 
 
 class BoggleController:
@@ -97,12 +91,13 @@ class BoggleController:
         self._gui.run()
 
 
-def main():
-    brd = [['A', 'R', 'A', 'QU'], ['D', 'F', 'Y', 'S'], ['A', 'W', 'N', 'E'],
-           ['D', 'R', 'A', 'I']]
-    brd2 = randomize_board()
-    some_words = load_words_dict("boggle_dict.txt")
+def cell_string_to_tuple(cell_str):
+    cell = cell_str.split(',')
+    return int(cell[0]), int(cell[1])
 
+
+def main():
+    some_words = load_words_dict("boggle_dict.txt")
     BoggleController(some_words).run()
 
 

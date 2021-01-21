@@ -74,19 +74,18 @@ class BoggleGUI:
         self._sidebar_frame = tk.Frame(self._main_frame, width=200,
                                        highlightthickness=1)
         self._menu_frame = tk.Frame(self._sidebar_frame, **MENU_BG,
-                                    height=100, bd=5)
+                                    height=100)
         self._menu_frame.columnconfigure(0, weight=2)
         self._menu_frame.columnconfigure(1, weight=1)
 
-        self._menu_btns_frame = tk.Frame(self._sidebar_frame, **MENU_BG, bd=5,
+        self._menu_btns_frame = tk.Frame(self._sidebar_frame, **MENU_BG,
                                          height=70)
         for i in range(2):
             tk.Grid.rowconfigure(self._menu_btns_frame, i, weight=1)
             tk.Grid.columnconfigure(self._menu_btns_frame, i, weight=1)
         self._menu_btns_frame.grid_propagate(False)
 
-        self._words_frame = tk.Frame(self._sidebar_frame, **MENU_BG,
-                                     bd=5)
+        self._words_frame = tk.Frame(self._sidebar_frame, **MENU_BG)
         self._word_display_frame = tk.Frame(self._bottom_frame, width=300,
                                             bd=5, height=43, relief=tk.SUNKEN,
                                             **CH_WORD_BG)
@@ -110,6 +109,7 @@ class BoggleGUI:
 
         self._menu_frame.pack(fill=tk.X)
         self._words_frame.pack(fill=tk.BOTH, expand=True)
+        self._words_frame.pack_propagate(False)
         self._menu_btns_frame.pack(fill=tk.X)
 
     def _add_widgets(self):
@@ -271,8 +271,9 @@ class BoggleGUI:
 
     def display_words(self, found_words: words_th):
         """ Displays the words that the user found """
+        start = 0 if len(found_words) < 16 else (len(found_words) - 16)
         self._words_label['text'] = ''
-        for word in found_words:
+        for word in list(found_words)[start:]:
             self._words_label['text'] += word + '\n'
 
     def display_score(self, score: int):
