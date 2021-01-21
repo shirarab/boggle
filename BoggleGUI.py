@@ -3,7 +3,7 @@ from tkinter import messagebox
 from BoggleModel import BoggleModel
 from Style import *
 from Texts import *
-from typing import List, Tuple, Dict, Optional
+from typing import List, Tuple, Dict
 
 # type hints
 board_th = List[List[str]]
@@ -24,6 +24,7 @@ class BoggleGUI:
         self._board: board_th = board
         self._board_size: size_th = {ROW: len(board), COL: len(board[0])}
         self._board_buttons: buttons_th = {}
+        self._start_btn_command = None
 
         self._init_time: int = time_to_end  # by seconds
         self._time_to_end: int = time_to_end  # by seconds
@@ -203,8 +204,8 @@ class BoggleGUI:
         message = self._create_end_message()
         play_again = messagebox.askyesno(TIME_UP, message)
         if play_again:
-            restart = self._start_btn['command']
-            restart()
+            if self._start_btn_command:
+                self._start_btn_command()
         else:
             self._root.destroy()
 
@@ -272,6 +273,7 @@ class BoggleGUI:
 
     def set_start_command(self, cmd) -> None:
         """ Sets Start button's command """
+        self._start_btn_command = cmd
         self._start_btn.configure(command=cmd)
 
     def set_hint_command(self, cmd):

@@ -6,8 +6,7 @@ from tkinter import messagebox
 from Texts import *
 
 
-# TIMER = 3 * 60
-TIMER = 10
+TIMER = 3 * 60
 INIT_BOARD = [[''] * BOARD_SIZE] * BOARD_SIZE
 
 
