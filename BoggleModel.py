@@ -1,3 +1,11 @@
+#################################################################
+# FILE : BoggleModel.py
+# WRITERS : Meyrav Cohen Ganuz | meyrav.ganuz | ID: 208932830
+#           Shira Rabinovich | shirarab | ID: 211689765
+# EXERCISE : intro2cs1 ex12 2020
+# NOTES: file 2 out of 7. Description in 'README' file.
+#################################################################
+
 from ex12_utils import *
 from typing import List, Tuple, Dict
 import random
@@ -70,7 +78,7 @@ class BoggleModel:
     def stop_game(self):
         """ turns off game state """
         self._game_on = False
-        if self._score > get_high_score():
+        if self._score > self.get_high_score():
             self._message = HIGHSCORE_MSG
         else:
             self._message = END_GAME_MSG
@@ -156,7 +164,7 @@ class BoggleModel:
                      if item[0] not in self._found_words}
         return random.choice(list(all_hints))
 
-
-def get_high_score() -> int:
-    """ Returns game's highest score """
-    return max(BoggleModel.all_scores)
+    @staticmethod
+    def get_high_score() -> int:
+        """ Returns game's highest score """
+        return max(BoggleModel.all_scores)

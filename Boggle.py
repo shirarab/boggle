@@ -1,3 +1,12 @@
+#################################################################
+# FILE : Boggle.py
+# WRITERS : Meyrav Cohen Ganuz | meyrav.ganuz | ID: 208932830
+#           Shira Rabinovich | shirarab | ID: 211689765
+# EXERCISE : intro2cs1 ex12 2020
+# DESCRIPTION: The game 'Boggle'
+# NOTES: file 1 out of 7
+#################################################################
+
 from BoggleGUI import BoggleGUI
 from BoggleModel import BoggleModel
 from ex12_utils import load_words_dict
@@ -49,6 +58,7 @@ class BoggleController:
             self._gui.display_score(self._model.get_score())
             self._model.set_message(START_GAME_MSG)
             self._gui.reset_message_time()
+            self._gui.display_highscore(self._model.get_high_score())
             if not self._model.get_game_on():
                 self._gui.change_to_restart()
                 self._model.start_game()

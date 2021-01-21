@@ -1,8 +1,16 @@
+#################################################################
+# FILE : Style.py
+# WRITERS : Meyrav Cohen Ganuz | meyrav.ganuz | ID: 208932830
+#           Shira Rabinovich | shirarab | ID: 211689765
+# EXERCISE : intro2cs1 ex12 2020
+# NOTES: file 4 out of 7. Description in 'README' file.
+#################################################################
 import tkinter as tk
 
 # Frames:
 NORMAL_BG = {'bg': 'light sky blue'}
 MENU_BG = {'bg': 'RoyalBlue1'}
+HIGH_BG = {'bg': 'midnight blue'}
 MAIN_STYLE = {'highlightbackground': 'deep pink', 'highlightthickness': 2,
               **NORMAL_BG}
 SUB_STYLE = {'highlightthickness': 1,
@@ -24,8 +32,9 @@ BTN_STYLE = {'font': ('Courier', 20),
 MSG_STL = {'font': ('Courier', 12), 'fg': 'gray6', **NORMAL_BG}
 WORDS_STYLE = {'font': ('Tempus Sans ITC', 12), }
 TXT_STYLE = {'font': ('Tempus Sans ITC', 15)}
-TITLE_STYLE = {'font': ("Comic Sans MS", 10), 'fg': 'white', 'width': 11,
-               **MENU_BG}
+TITLE_TXT = {'font': ("Comic Sans MS", 10), 'fg': 'white', 'width': 11}
+TITLE_STYLE = {**TITLE_TXT, **MENU_BG}
+HIGH_STYLE = {**TITLE_TXT, **HIGH_BG}
 WORDS_TITLE_STL = {'font': ("Comic Sans MS", 15), 'pady': 5,
                    'relief': tk.GROOVE}
 BOGGLE_LABEL_STYLE = {'font': ('Comic Sans MS', 30),

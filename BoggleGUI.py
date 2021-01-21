@@ -1,5 +1,12 @@
+#################################################################
+# FILE : BoggleGUI.py
+# WRITERS : Meyrav Cohen Ganuz | meyrav.ganuz | ID: 208932830
+#           Shira Rabinovich | shirarab | ID: 211689765
+# EXERCISE : intro2cs1 ex12 2020
+# NOTES: file 3 out of 7. Description in 'README' file.
+#################################################################
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, PhotoImage
 from BoggleModel import BoggleModel
 from Style import *
 from Texts import *
@@ -119,18 +126,26 @@ class BoggleGUI:
 
         # menu frame - clock & score
         self._clock_title = tk.Label(self._menu_frame, text=TIME_REMAINED,
-                                     **TITLE_STYLE)
+                                     **HIGH_STYLE)
         self._clock_title.grid(row=0, column=0, ipadx=4)
         self._clock_display = tk.Label(self._menu_frame,
-                                       text=EMPTY_CLOCK, **TITLE_STYLE)
+                                       text=EMPTY_CLOCK, **HIGH_STYLE)
         self._clock_display.grid(row=0, column=1)
 
         self._score_title = tk.Label(self._menu_frame, text=SCORE,
-                                     **TITLE_STYLE)
+                                     **HIGH_STYLE)
         self._score_title.grid(row=1, column=0, ipadx=4)
         self._score_display = tk.Label(self._menu_frame, text=INITIAL_SCORE,
-                                       **TITLE_STYLE)
+                                       **HIGH_STYLE)
         self._score_display.grid(row=1, column=1)
+
+        self._highscore_title = tk.Label(self._menu_frame, text=HIGHSCORE,
+                                         **HIGH_STYLE)
+        self._highscore_title.grid(row=3, column=0, ipadx=4)
+        self._highscore_display = tk.Label(self._menu_frame,
+                                           text=EMPTY,
+                                           **HIGH_STYLE)
+        self._highscore_display.grid(row=3, column=1)
 
         # words display
         self._words_title = tk.Label(self._words_frame, text=WORDS_FOUND,
@@ -164,6 +179,14 @@ class BoggleGUI:
         self._hint_btn = tk.Button(self._menu_btns_frame, text=HINT,
                                    **ENTER_STL)
         self._hint_btn.grid(row=1, column=0, **MENU_BTN_GRID)
+        # Information
+        icon = PhotoImage(file='icon.png')
+        self._info_btn = tk.Button(self._upper_frame,
+                                   image=icon, command=info_cmd,
+                                   height=20, width=20,
+                                   **HIGH_BG)
+        self._info_btn.image = icon
+        self._info_btn.grid(row=0, column=0, sticky=tk.NW)
 
     def _create_cells(self):
         """ Creates Boarder's cells, containing buttons """
@@ -199,6 +222,7 @@ class BoggleGUI:
             self._root.after(1000, self.timer)
 
     def _finish_current_game(self):
+        """ Ends the game """
         self._clock_display.configure(text=TIME_UP)
         self._model.stop_game()
         message = self._create_end_message()
@@ -229,6 +253,7 @@ class BoggleGUI:
         self._root.after(100, self.animate_buttons)
 
     def animate_message(self):
+        """ Animates the message shown to the user """
         if self.msg_time <= 0:
             self._model.clear_message()
             self.msg_time = MSG_TIME_LIMIT
@@ -258,6 +283,9 @@ class BoggleGUI:
         """ Displays message to the user """
         self._message_label['text'] = message
 
+    def display_highscore(self, highscore):
+        self._highscore_display['text'] = str(highscore)
+
     def change_to_restart(self):
         """ Changes Start button's text to 'Restart' """
         self._start_btn['text'] = RESTART
@@ -277,6 +305,7 @@ class BoggleGUI:
         self._start_btn.configure(command=cmd)
 
     def set_hint_command(self, cmd):
+        """ Sets Hint button's command """
         self._hint_btn.configure(command=cmd)
 
     def run(self):
@@ -284,9 +313,14 @@ class BoggleGUI:
         self._root.mainloop()
 
     def exit(self):
+        """ Asks the user and quits the game according to answer """
         do_exit = messagebox.askyesno(EXIT, EXIT_MSG)
         if do_exit:
             self._root.destroy()
+
+
+def info_cmd():
+    messagebox.showinfo(INFO, INFO_MSG)
 
 
 def get_time_display(time_to_end: int) -> str:

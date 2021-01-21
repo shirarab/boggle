@@ -1,23 +1,29 @@
-<Description of our project's features here>
 
-
-Features we added:
-
-    Hint-
+Features we added to the game:
+    Hint -
         The player can get up to 3 hints in a game
         The hint will display a word that can be found in the board
 
-    Restart game in the middle of a game-
+    Restart game in the middle of a game -
         At any point of the game, the player can choose to restart th game and
         loose his or hers points.
-        Restarting the game with reset the board, the score, and the hints
+        Restarting the game with reset the board, the score, and the hints.
+        The button shows a warning before action.
 
-    High score-
+    Quit button -
+        At any point of the game, the player can choose to quit the game.
+        The button shows a warning before action.
+
+    High score -
         We save the high score of the player in the games they played.
         The high score is displayed near the current score.
 
-    Design-
+    Instructions button -
+        The player can read the game's instructions.
 
+    Design -
+        At this game we use animations, image button, interactive message
+        boxes and message label, disable/enable buttons and some cool colors :)
 
 
 File division- We divided the code to multiple files:
